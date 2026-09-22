@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex, nofollow">
+<title>Home</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+:root {
+  --bg: #fff;
+  --fg: #111;
+  --link: #0000ee;
+  --muted: #aaa;
+  --muted-hover: #666;
+  --hover-bg: #eef4ff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16181c;
+    --fg: #e6e6e6;
+    --link: #7aa2f7;
+    --muted: #666;
+    --muted-hover: #999;
+    --hover-bg: #232833;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13.5px;
+  padding: 40px 48px;
+  max-width: 1100px;
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-text-size-adjust: 100%;
+}
+
+#q {
+  font: inherit;
+  font-size: 13.5px;
+  width: 100%;
+  max-width: 260px;
+  padding: 5px 8px;
+  margin: 0 0 24px;
+  border: 1px solid var(--muted);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--fg);
+  outline: none;
+}
+#q:focus { border-color: var(--link); }
+#q::placeholder { color: var(--muted); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0 32px;
+  align-items: start;
+}
+
+h2 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 20px 0 4px;
+}
+
+.col > h2:first-child { margin-top: 0; }
+
+ul { list-style: none; margin: 0; padding: 0; }
+
+li { line-height: 1.5; }
+
+a {
+  color: var(--link);
+  text-decoration: none;
+  padding: 1px 4px;
+  margin-left: -4px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+a:hover, a.hit { background: var(--hover-bg); }
+
+details { margin: 0; display: flex; flex-direction: column; }
+details > ul { order: 1; }
+summary {
+  order: 2;
+  color: var(--muted);
+  cursor: pointer;
+  line-height: 1.5;
+  list-style: none;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "more…"; }
+details[open] summary::after { content: "less…"; }
+summary:hover { color: var(--muted-hover); }
+
+/* filtering */
+body.filtering details { display: block; }
+body.filtering summary { display: none; }
+li.off, h2.off, .col.off { display: none; }
+
+/* --- responsive --- */
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 0 28px; }
+}
+
+@media (max-width: 620px) {
+  body { padding: 20px 20px calc(20px + env(safe-area-inset-bottom)); font-size: 16px; }
+  .grid { grid-template-columns: 1fr; gap: 0; }
+  h2 { font-size: 15px; margin: 26px 0 6px; }
+  li { line-height: 2.1; }
+  a { padding: 2px 6px; margin-left: -6px; }
+  #q { max-width: none; font-size: 16px; padding: 9px 10px; margin-bottom: 18px; }
+  /* localhost is useless on a phone; staging/prod stay */
+  #localhost-head, #localhost-list, #localhost-more { display: none; }
+  /* everything is already expanded on mobile — no "more…" fiddling */
+  details { display: block; }
+  details > ul { display: block !important; }
+  summary { display: none; }
+}
+</style>
+</head>
+<body>
+
+<input id="q" type="search" placeholder="filter…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+
+<div class="grid">
+
+  <!-- Column 1: Dev environments -->
+  <div class="col">
+    <h2 id="localhost-head">localhost</h2>
+    <ul id="localhost-list">
+      <li><a href="http://localhost:8001/admin">Contributor</a></li>
+      <li><a href="http://localhost:3009">Predict</a></li>
+      <li><a href="http://localhost:8000">Requester</a></li>
+      <li><a href="http://localhost:3006">Studio</a></li>
+    </ul>
+    <details id="localhost-more">
+      <ul>
+        <li><a href="http://localhost:4000">Assembly</a></li>
+        <li><a href="http://localhost:6008/api/v1">Backend</a></li>
+        <li><a href="http://localhost:3000">Measure C2</a></li>
+        <li><a href="http://localhost:3000">Portal</a></li>
+        <li><a href="http://localhost:6002/api/v1">Taxonomy</a></li>
+        <li><a href="http://localhost:4500">Web MSR</a></li>
+        <li><a href="http://localhost:6007/api/v1">Workshop</a></li>
+      </ul>
+      <summary></summary>
+    </details>
+
+    <h2>staging</h2>
+    <ul>
+      <li><a href="http://contributor-dev-2.measureprotocol.com/admin">Contributor</a></li>
+      <li><a href="https://dev-predict.measureprotocol.com/">Predict</a></li>
+      <li><a href="http://requester-dev-2.measureprotocol.com">Requester</a></li>
+      <li><a href="https://dev-studio.measureprotocol.com/">Studio</a></li>
+    </ul>
+    <details>
+      <ul>
+        <li><a href="https://dev-backend.measureprotocol.com/api/v1">Backend</a></li>
+        <li><a href="http://c2-dev-2.measureprotocol.com">Measure C2</a></li>
+        <li><a href="https://dev-portal.measureprotocol.com">Portal</a></li>
+        <li><a href="https://dev-superset.measureprotocol.com/">Superset</a></li>
+        <li><a href="http://taxonomy-dev-2.measureprotocol.com:6002/api/v1">Taxonomy</a></li>
+        <li><a href="http://workshop-dev-2.measureprotocol.com/api/v1">Workshop</a></li>
+      </ul>
+      <summary></summary>
+    </details>
+
+    <h2>prod</h2>
+    <ul>
+      <li><a href="https://contributor.measureprotocol.com/admin">Contributor</a></li>
+      <li><a href="https://predict.measureprotocol.com">Predict</a></li>
+      <li><a href="https://requester.measureprotocol.com">Requester</a></li>
+      <li><a href="https://studio.measureprotocol.com/">Studio</a></li>
+    </ul>
+    <details>
+      <ul>
+        <li><a href="https://audience.measureprotocol.com">Assembly</a></li>
+        <li><a href="https://be.measureprotocol.com/api/v1">Backend</a></li>
+        <li><a href="https://c2.measureprotocol.com">Measure C2</a></li>
+        <li><a href="https://app.measureprotocol.com">Portal</a></li>
+        <li><a href="https://ss.measureprotocol.com/">Superset</a></li>
+        <li><a href="https://taxonomy.measureprotocol.com/api/v1">Taxonomy</a></li>
+        <li><a href="https://msr.measureprotocol.com">Web MSR</a></li>
+        <li><a href="https://workshop.measureprotocol.com/api/v1">Workshop</a></li>
+      </ul>
+      <summary></summary>
+    </details>
+  </div>
+
+  <!-- Column 2: Services -->
+  <div class="col">
+    <h2>measure</h2>
+    <ul>
+      <li><a href="https://mail.google.com/a/measureprotocol.com">Email</a></li>
+      <li><a href="https://calendar.google.com/a/measureprotocol.com">Calendar</a></li>
+      <li><a href="https://drive.google.com/a/measureprotocol.com">Google Drive</a></li>
+      <li><a href="https://meet.google.com/new?authuser=john@measureprotocol.com">Google Meet</a></li>
+    </ul>
+    <h2>services</h2>
+    <ul>
+      <li><a href="https://github.com/measureprotocol">Github</a></li>
+      <li><a href="https://johnmartin78.signin.aws.amazon.com/console">AWS Console</a></li>
+      <li><a href="https://app.slack.com/client/T92UPBT9P/C99BLE0Q0">Slack</a></li>
+      <li><a href="https://app.clickup.com/24512284">ClickUp</a></li>
+      <li><a href="https://measureprotocol.go.firebolt.io/login">Firebolt</a></li>
+    </ul>
+    <h2>tools</h2>
+    <ul>
+      <li><a href="https://drop.measureprotocol.com">Drop</a></li>
+      <li><a href="https://predict-support.measureprotocol.com">Predict Support</a></li>
+      <li><a href="https://survey.measureprotocol.com">Go Survey</a></li>
+      <li><a href="https://kit.measureprotocol.com">Kit</a></li>
+    </ul>
+    <h2>ai</h2>
+    <ul>
+      <li><a href="https://claude.ai">Claude</a></li>
+      <li><a href="https://claude.ai/design">Claude Design</a></li>
+      <li><a href="https://platform.claude.com">Claude Platform</a></li>
+      <li><a href="https://chatgpt.com">ChatGPT</a></li>
+      <li><a href="https://platform.openai.com">OpenAI Platform</a></li>
+    </ul>
+  </div>
+
+  <!-- Column 3: Personal identity + social/news -->
+  <div class="col">
+    <h2>lonepixel</h2>
+    <ul>
+      <li><a href="https://mail.google.com/a/lonepixel.com">Email</a></li>
+      <li><a href="https://calendar.google.com/a/lonepixel.com">Calendar</a></li>
+      <li><a href="https://drive.google.com/a/lonepixel.com">Google Drive</a></li>
+    </ul>
+    <h2>me</h2>
+    <ul>
+      <li><a href="https://twitter.com/johnm">Twitter</a></li>
+      <li><a href="http://thatjohnmartin.com">Blog</a></li>
+      <li><a href="https://github.com/thatjohnmartin">Github</a></li>
+    </ul>
+    <h2>social</h2>
+    <ul>
+      <li><a href="https://twitter.com/home">Twitter</a></li>
+      <li><a href="https://www.instagram.com">Instagram</a></li>
+      <li><a href="https://www.linkedin.com/feed/">LinkedIn</a></li>
+      <li><a href="https://www.reddit.com">Reddit</a></li>
+      <li><a href="https://www.threads.net">Threads</a></li>
+    </ul>
+    <h2>news</h2>
+    <ul>
+      <li><a href="https://www.mediaite.com">Mediaite</a></li>
+      <li><a href="https://www.techmeme.com">Techmeme</a></li>
+      <li><a href="https://www.smh.com.au">Sydney Morning Herald</a></li>
+      <li><a href="https://www.nytimes.com">New York Times</a></li>
+      <li><a href="https://marginalrevolution.com">Marginal Revolution</a></li>
+      <li><a href="https://news.ycombinator.com">Hacker News</a></li>
+      <li><a href="http://daringfireball.net">Daring Fireball</a></li>
+      <li><a href="https://hoopshype.com/rumors/">HoopsHype</a></li>
+    </ul>
+  </div>
+
+  <!-- Column 4: Home + entertainment -->
+  <div class="col">
+    <h2>farm</h2>
+    <ul>
+      <li><a href="https://thelittlefarm.ca">thelittlefarm.ca</a></li>
+      <li><a href="https://bot.thelittlefarm.ca">Farm Bot</a></li>
+      <li><a href="https://mail.google.com/a/thelittlefarm.ca">Email</a></li>
+      <li><a href="https://drive.google.com/a/thelittlefarm.ca">Google Drive</a></li>
+      <li><a href="https://manage.wix.com/dashboard/99d4cea4-0588-4590-abdf-7ee75c951804/home">Wix</a></li>
+      <li><a href="https://680647341432.signin.aws.amazon.com/console">AWS Console</a></li>
+      <li><a href="https://payroll.wagepoint.com/prod/ui/payroll/overview">Wagepoint</a></li>
+    </ul>
+    <h2>banking</h2>
+    <ul>
+      <li><a href="https://www.rbcroyalbank.com">RBC</a></li>
+      <li><a href="https://wise.com">Wise</a></li>
+      <li><a href="https://www.neofinancial.com">Neo</a></li>
+      <li><a href="https://www.chime.com">Chime</a></li>
+    </ul>
+    <h2>shopping</h2>
+    <ul>
+      <li><a href="https://www.amazon.ca">Amazon.ca</a></li>
+      <li><a href="https://www.walmart.ca">Walmart.ca</a></li>
+      <li><a href="https://www.temu.com">Temu</a></li>
+    </ul>
+    <h2>video</h2>
+    <ul>
+      <li><a href="https://www.youtube.com">YouTube</a></li>
+      <li><a href="https://www.netflix.com">Netflix</a></li>
+      <li><a href="https://www.crave.ca">Crave</a></li>
+      <li><a href="https://www.amazon.ca/gp/video/storefront">Amazon Prime</a></li>
+      <li><a href="https://www.disneyplus.com/">Disney+</a></li>
+    </ul>
+    <h2>games</h2>
+    <ul>
+      <li><a href="https://www.nytimes.com/games/wordle/index.html">Wordle</a></li>
+      <li><a href="https://www.nytimes.com/games/connections">Connections</a></li>
+    </ul>
+    <h2>racing</h2>
+    <ul>
+      <li><a href="https://members.iracing.com/membersite/member/Home.do">iRacing</a></li>
+      <li><a href="https://www.reddit.com/r/iRacing/">/r/iRacing</a></li>
+      <li><a href="https://virtualracingschool.appspot.com/#/Home">VRS</a></li>
+      <li><a href="https://garage61.net/app">Garage 61</a></li>
+      <li><a href="https://pcasimracing.com">PCA Sim Racing</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var q = document.getElementById('q');
+  var links = [].slice.call(document.querySelectorAll('.grid a'));
+  var items = links.map(function (a) {
+    return { a: a, li: a.closest('li'), t: a.textContent.toLowerCase() + ' ' + a.href.toLowerCase() };
+  });
+  var heads = [].slice.call(document.querySelectorAll('.grid h2'));
+  var cols = [].slice.call(document.querySelectorAll('.col'));
+  var first = null;
+
+  function apply() {
+    var s = q.value.trim().toLowerCase();
+    if (first) { first.classList.remove('hit'); first = null; }
+    document.body.classList.toggle('filtering', !!s);
+
+    items.forEach(function (it) {
+      var on = !s || it.t.indexOf(s) !== -1;
+      it.li.classList.toggle('off', !on);
+      if (on && !first && s) { first = it.a; first.classList.add('hit'); }
+    });
+
+    // hide section headings and columns with nothing left under them
+    heads.forEach(function (h) {
+      var n = h, live = false;
+      while ((n = n.nextElementSibling) && n.tagName !== 'H2') {
+        if (n.querySelector('li:not(.off)')) { live = true; break; }
+      }
+      h.classList.toggle('off', !!s && !live);
+    });
+    cols.forEach(function (c) {
+      c.classList.toggle('off', !!s && !c.querySelector('li:not(.off)'));
+    });
+  }
+
+  q.addEventListener('input', apply);
+  q.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && first) { window.location.href = first.href; }
+    if (e.key === 'Escape') { q.value = ''; apply(); q.blur(); }
+  });
+
+  // any keystroke focuses the filter box
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (document.activeElement === q) return;
+    if (/^[a-z0-9/]$/i.test(e.key)) { q.focus(); }
+  });
+
+  // focus on desktop only — avoids popping the keyboard on a phone
+  if (window.matchMedia('(min-width: 621px)').matches) q.focus();
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js');
+    });
+  }
+})();
+</script>
+</body>
+</html>
