@@ -43,21 +43,6 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
-#q {
-  font: inherit;
-  font-size: 13.5px;
-  width: 100%;
-  max-width: 260px;
-  padding: 5px 8px;
-  margin: 0 0 24px;
-  border: 1px solid var(--muted);
-  border-radius: 5px;
-  background: transparent;
-  color: var(--fg);
-  outline: none;
-}
-#q:focus { border-color: var(--link); }
-#q::placeholder { color: var(--muted); }
 
 .grid {
   display: grid;
@@ -87,7 +72,7 @@ a {
   display: inline-block;
 }
 
-a:hover, a.hit { background: var(--hover-bg); }
+a:hover { background: var(--hover-bg); }
 
 details { margin: 0; display: flex; flex-direction: column; }
 details > ul { order: 1; }
@@ -103,10 +88,6 @@ summary::after { content: "more…"; }
 details[open] summary::after { content: "less…"; }
 summary:hover { color: var(--muted-hover); }
 
-/* filtering */
-body.filtering details { display: block; }
-body.filtering summary { display: none; }
-li.off, h2.off, .col.off { display: none; }
 
 /* --- responsive --- */
 @media (max-width: 900px) {
@@ -119,7 +100,6 @@ li.off, h2.off, .col.off { display: none; }
   h2 { font-size: 15px; margin: 26px 0 6px; }
   li { line-height: 2.1; }
   a { padding: 2px 6px; margin-left: -6px; }
-  #q { max-width: none; font-size: 16px; padding: 9px 10px; margin-bottom: 18px; }
   /* localhost is useless on a phone; staging/prod stay */
   #localhost-head, #localhost-list, #localhost-more { display: none; }
   /* everything is already expanded on mobile — no "more…" fiddling */
@@ -131,7 +111,6 @@ li.off, h2.off, .col.off { display: none; }
 </head>
 <body>
 
-<input id="q" type="search" placeholder="filter…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 
 <div class="grid">
 
@@ -317,63 +296,5 @@ li.off, h2.off, .col.off { display: none; }
 
 </div>
 
-<script>
-(function () {
-  var q = document.getElementById('q');
-  var links = [].slice.call(document.querySelectorAll('.grid a'));
-  var items = links.map(function (a) {
-    return { a: a, li: a.closest('li'), t: a.textContent.toLowerCase() + ' ' + a.href.toLowerCase() };
-  });
-  var heads = [].slice.call(document.querySelectorAll('.grid h2'));
-  var cols = [].slice.call(document.querySelectorAll('.col'));
-  var first = null;
-
-  function apply() {
-    var s = q.value.trim().toLowerCase();
-    if (first) { first.classList.remove('hit'); first = null; }
-    document.body.classList.toggle('filtering', !!s);
-
-    items.forEach(function (it) {
-      var on = !s || it.t.indexOf(s) !== -1;
-      it.li.classList.toggle('off', !on);
-      if (on && !first && s) { first = it.a; first.classList.add('hit'); }
-    });
-
-    // hide section headings and columns with nothing left under them
-    heads.forEach(function (h) {
-      var n = h, live = false;
-      while ((n = n.nextElementSibling) && n.tagName !== 'H2') {
-        if (n.querySelector('li:not(.off)')) { live = true; break; }
-      }
-      h.classList.toggle('off', !!s && !live);
-    });
-    cols.forEach(function (c) {
-      c.classList.toggle('off', !!s && !c.querySelector('li:not(.off)'));
-    });
-  }
-
-  q.addEventListener('input', apply);
-  q.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' && first) { window.location.href = first.href; }
-    if (e.key === 'Escape') { q.value = ''; apply(); q.blur(); }
-  });
-
-  // any keystroke focuses the filter box
-  document.addEventListener('keydown', function (e) {
-    if (e.metaKey || e.ctrlKey || e.altKey) return;
-    if (document.activeElement === q) return;
-    if (/^[a-z0-9/]$/i.test(e.key)) { q.focus(); }
-  });
-
-  // focus on desktop only — avoids popping the keyboard on a phone
-  if (window.matchMedia('(min-width: 621px)').matches) q.focus();
-
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
-      navigator.serviceWorker.register('sw.js');
-    });
-  }
-})();
-</script>
 </body>
 </html>
