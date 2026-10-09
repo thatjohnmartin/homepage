@@ -2,7 +2,7 @@
 
 My browser homepage. One static HTML file, no JavaScript, no external requests, no build step.
 
-- **Live:** (set after first deploy)
+- **Live:** https://thatjohnmartin.com/homepage/ (GitHub Pages, public repo; deploys on push to `main` in ~1 min)
 - **Mobile:** responsive (4 cols → 2 → 1). The `localhost` section is hidden on
   phones. Add to Home Screen gives an app icon.
 
